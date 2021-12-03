@@ -1,0 +1,43 @@
+# The PROJECT_ID and TARGET_HOST will get sed'ed out with actual values
+# Locust is optimized to run on 1 CPU / worker pod. We need to make sure the gke node pool is using compute optimized instances.
+# Generally speaking, each of the CPU limits should be about 1 or slightly less. The reason why I made it 940m or 0.94 is because if you use the default node pool using the E2 machine instance sizes, they won't let you schedule pods if it's greater than 0.94. You are better off just keeping it at 0.94.
+
+apiVersion: "apps/v1"
+kind: "Deployment"
+metadata:
+  name: locust-master
+  labels:
+    name: locust-master
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: locust-master
+  template:
+    metadata:
+      labels:
+        app: locust-master
+    spec:
+      containers:
+        - name: locust-master
+          image: gcr.io/[PROJECT_ID]/[CLUSTER_NM]:latest
+          resources:
+            limits:
+              cpu: "0.94"
+            requests:
+              cpu: "0.75"
+          env:
+            - name: LOCUST_MODE
+              value: master
+            - name: TARGET_HOST
+              value: https://[TARGET_HOST]
+          ports:
+            - name: loc-master-web
+              containerPort: 8089
+              protocol: TCP
+            - name: loc-master-p1
+              containerPort: 5557
+              protocol: TCP
+            - name: loc-master-p2
+              containerPort: 5558
+              protocol: TCP
