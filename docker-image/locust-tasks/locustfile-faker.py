@@ -7,6 +7,8 @@
 # I discourage you from doing that because there are file path
 # reference issues that make things difficult when you containerize
 # and deploy to gke. Try to keep everything in this 1 file.
+# The only exception to this rule are faker models which need to be
+# pre-built and tested and checked in.
 #
 ########################################################################
 
@@ -24,6 +26,7 @@ from bson.json_util import loads
 from bson import ObjectId
 from locust import User, events, task, constant, tag, between
 import time
+import fakerutil
 
 ########################################################################
 # Global Static Variables that can be accessed without referencing self
@@ -32,23 +35,28 @@ import time
 ########################################################################
 try:
     client = pymongo.MongoClient("mongodb+srv://<username>:<password>@<srv>/myFirstDatabase?retryWrites=true&w=majority&readPreference=secondaryPreferred")
-    coll = client.sample_airbnb.listingsAndReviews
+    coll = client.locust.faker
     # Log all application exceptions (and audits) to the same cluster
     audit = client.locust.audit
+    # Set the model file name. The model file suffix is the recommended number of bulk inserts that should be done per mLocust worker
+    # The model file MUST be checked into git else the mLocust workers won't know it exists
+    model = "<model filename in models dir>"
 except Exception as e:
    print('Fatal Exception (unable to log error): ', e)
    exit()
 
+########################################################################
+# Even though locust is designed for concurrency of simulated users,
+# given how resource intensive fakers/bulk inserts are,
+# you should only run 1 simulated user / worker else you'll kill the 
+# CPU of the workers.
+########################################################################
 class MetricsLocust(User):
     ####################################################################
-    # All performance POVs measure based on requests/sec (RPS).
-    # Throttle all tasks per user to run every second.
-    # Do not touch this parameter.
-    # If we don't throttle, then each user will run as fast as possible,
-    # and will kill the CPU of the machine.
-    # We can increase throughput by running more concurrent users.
+    # Unlike a standard locust file where we throttle requests on a per
+    # second basis, since we are trying to load data asap, there will 
+    # be no throttling
     ####################################################################
-    wait_time = between(1, 1)
 
     ################################################################
     # Example helper function that is not a Locust task.
@@ -61,26 +69,35 @@ class MetricsLocust(User):
     ################################################################
     # Audit should only be intended for logging errors
     # Otherwise, it impacts the load on your cluster since it's
-    # extra work that needs to be performed on your cluster
+    # extra work that needs to be performed on your cluster 
     ################################################################
     def audit(self, type, msg):
         print("Audit: ", msg)
         audit.insert_one({"type":type, "ts":self.get_time(), "msg":str(msg)})
 
     ################################################################
-    # Start defining tasks and assign a weight to it.
-    # All tasks need the @task() notation.
-    # Weights indicate the chance to execute, e.g. 1=1x, 5=5x, etc.
+    # Since the loader is designed to be single threaded with 1 user
+    # There's no need to set a weight to the task.
+    # Do not create additional tasks in conjunction with the loader
+    # If you are testing running queries while the loader is running
+    # deploy 2 clusters in mLocust with one running faker and the
+    # other running query tasks
+    # The reason why we don't want to do both loads and queries is
+    # because of the simultaneous users and wait time between
+    # requests. The bulk inserts can take longer than 1s possibly
+    # which will cause the workers to fall behind.
     ################################################################
     @task(1)
-    def _async_find(self):
+    def _bulkinsert(self):
         # Note that you don't pass in self despite the signature above
         tic = self.get_time();
             
         try:
-            # Get the record from the TEST collection now
-            coll.find_one({}, {"_id":1})
-            events.request_success.fire(request_type="pymongo", name="singleFetch", response_time=(time.time()-tic), response_length=0)
+            # Logic for bulk insert goes here using the pyfaker util
+            l = fakerutil.bulkFetch(model)
+            coll.insert_many(l)
+
+            events.request_success.fire(request_type="pymongo", name="bulkinsert", response_time=(time.time()-tic), response_length=0)
         except Exception as e:
             # Don't exit program. Keep going. If you want, you could call events.request_failure.fire() if you so choose.
             self.audit("exception", e)
