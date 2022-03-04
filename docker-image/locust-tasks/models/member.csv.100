@@ -1,73 +1,73 @@
-Resource.Property,Property Type,Optional/Required,Generator,Sample Data,Notes about Sample Data,Comments,Developer Comments,Status/State,Change Notes,Maps to HCIF Class.Property,HCIF Base Class,HCIF Release
-ID,String,Required,"ID(""M-"")","""M-"" + Incremental 1- 6 million",,,,Approved,,,,7.21
-Last,String,Required,fake.last_name(),Random,,,,Approved,,,,7.21
-First,String,Optional,fake.first_name(),Random,,,,Approved,,,,7.21
-Middle,String,Optional,fake.first_name(),Random,,,,Approved,,,,7.21
-Suffix,String,Optional,fake.suffix(),Random,,,,Approved,,,,7.21
-Address().name,String,Optional,"fake.random_element(('Main', 'Summer', 'Old'))","Main, Summer, Old",,1 Member can have many addresses. eg: school this would be School Name,,Approved,,,,7.21
-Address().address Line1,String,Optional,fake.street_address(),Random,,,,Approved,,,,7.21
-Address().addressLine2,String,Optional,fake.secondary_address(),Random,,,,Approved,,,,7.21
-Address().city,String,Optional,fake.city(),Random,,,,Approved,,,,7.21
-Address().state,String,Optional,fake.state_abbr(),Random,,,,Approved,,,,7.21
-Address().postalCode,String,Optional,fake.postcode(),Random,,,,Approved,,,,7.21
-Address().country,String,Optional,fake.country(),US,,,,Approved,,,,7.21
-Address().coordinates,Decimal,Optional,"[float(str(fake.longitude())),float(str(fake.latitude()))]",Random,,,,Approved,,,,7.21
-location.type,String,Optional,"'points'",Random,,,,Approved,,,,7.21
-location.coordinates,Decimal,Optional,"[float(str(fake.longitude())),float(str(fake.latitude()))]",Random,,,,Approved,,,,7.21
-Address().type,String,Optional,"fake.random_element(('Main', 'Summer', 'Old'))","Main, Summer, Old",,,,Approved,,,,7.21
-Address().EffDt,date,Optional,fake.past_datetime(),Random,,,,Approved,,,,7.21
-Address().EndDt,date,Optional,"fake.future_datetime(end_date=""+3y"")",Random,,,,Approved,,,,7.21
-Address().wheelchairAccess,boolean,Optional,fake.boolean(chance_of_getting_true=10),"True, False",,,,Approved,,,,7.21
-Communication.Phone().phoneNumber,String,Optional,fake.phone_number(),Random,,,,Approved,,,,7.21
-Communication.Phone().type,String,Optional,"fake.random_element(('Home', 'Work', 'Cell', 'Fax', 'Pager'))","Home, Work, Cell, Fax, Pager",,,,Approved,,,,7.21
-Communication.Email().emailAddress,String,Optional,fake.email(),Random,,,,Approved,,,,7.21
-Communication.Email().type,String,Optional,"fake.random_element(('Home', 'Work'))","Home, Work",,,,Approved,,,,7.21
-Communication.SocialMedia().SocialMediaID,String,Optional,fake.user_name(),Random,,,,Approved,,,,7.21
-Communication.SocialMedia().SocialMediaType,String,Optional,"fake.random_element(('Facebook', 'Academia.edu', 'Bebo', 'CaringBridge', 'GoodReads', 'DailyStrength', 'Google+'))","Facebook, Academia.edu, Bebo, CaringBridge, GoodReads, DailyStrength, Google+",,,,Approved,,,,7.21
-SSN,String,Optional,fake.ssn(),Random,,,,Approved,,,,7.21
-DOB,date,Required,fake.date_time(),Random,,,,Approved,,,,7.21
-gender,String,Required,"fake.random_element(('Male', 'Female', 'Other'))","Male, Female, Other",,,,Approved,,,,7.21
-ethnicity,String,Optional,"fake.random_element(('White', 'American Indian', 'Asian', 'Hispanic', 'African American'))","White, American Indian, Asian, Hispanic, African American",,,,Approved,,,,7.21
-maritialStatus,String,Optional,"fake.random_element(('Married', 'Widow', 'Single'))","Married, Widow, Single",,,,Approved,,,,7.21
-EffDt,Date,Optional,fake.past_datetime(),Random,,,,Approved,,,,7.21
-EndDt,Date,Optional,"fake.future_datetime(end_date=""+8y"")",Random,,,,Approved,,,,7.21
-languages().ID,String,Optional,"fake.random_element(('Albanian', 'Farsi', 'Hindi', 'Korean', 'Polish', 'Spanish', 'Arabic', 'French', 'Hmong', 'Laotian', 'Portuguese', 'Tagalog', 'Armenian', 'German', 'Italian', 'Lithuanian', 'Punjabi', 'Thai', 'Bengali', 'Greek', 'Japanese', 'Malay', 'Romanian', 'Turkish', 'Burmese', 'Haitian Creole'))","Albanian,Farsi,Hindi,,Korean,Polish,Spanish,Arabic,French,Hmong,Laotian,Portuguese,Tagalog,Armenian,German,Italian,Lithuanian,Punjabi,Thai,Bengali,Greek,Japanese,Malay,Romanian,Turkish,Burmese,Haitian Creole",,Member can have many Languages and each Language can have many usages,,Approved,,,,7.21
-languages().Usage,String,Optional,"fake.random_element(('Spoken', 'Reading', 'Writing', 'Native'))","Spoken, Reading, Writing, Native",,"Usage is: Indicator for Language Spoken, Language Reading, Language Writing, Language Native",,Approved,,,,7.21
-CitizenshipStatusCode,String,Optional,"fake.random_element(('Native', 'Naturalised', 'Alien Permanent', 'Alien Temporary', 'Citizen', 'Foreign Worker', 'Permanent Resident', 'Foreigh ID Card Holder'))","Native, Naturalised, Alien Permanent, Alien Temporary, Citizen, Foreign Worker, Permanent Resident, Foreigh ID Card Holder",,Member citizenship status code,,Approved,,,,7.21
-Disability().StartDt,date,Optional,fake.past_datetime(),Random,,1 Member can have many disabilities,,Approved,,,,7.21
-Disability().EndDt,date,Optional,"fake.future_datetime(end_date=""+3y"")",Random,,,,Approved,,,,7.21
-Disability().TypeCode,String ,Optional,"fake.random_element(('Autism', 'Emotional Disability', 'Hearing Imparement', 'Intellectual Disability', 'Other Health Imparement', 'Traumatic Brain Injury', 'Visual Imparement'))","Autism, Emotional Disability, Hearing Imparement, Intellectual Disability, Other Health Imparement, Traumatic Brain Injury, Visual Imparement",,,,Approved,,,,7.21
-Guardian().Last,String ,Optional,fake.last_name(),Random,,1 Member can have many Guardians. Guardian can be person or a State can be traditional Guardian or Durable Power of Attorney,,Approved,,,,7.21
-Guardian().First,String ,Optional,fake.first_name(),Random,,,,Approved,,,,7.21
-Guardian().Type,String ,Optional,"fake.random_element(('Natural', 'Legal', 'Medical', 'Custodial'))","Natural, Legal, Medical, Custodial",,,,Approved,,,,7.21
-Guardian().Address.name,String,Optional,"fake.random_element(('Main', 'Summer', 'Old'))","Main, Summer, Old",,,,Approved,,,,7.21
-Guardian().Address.addressLine1,String,Optional,fake.street_address(),Random,,Only Primary Address,,Approved,,,,7.21
-Guardian().Address.addressLine2,String,Optional,fake.secondary_address(),Random,,,,Approved,,,,7.21
-Guardian().Address.city,String,Optional,fake.city(),Random,,,,Approved,,,,7.21
-Guardian().Address.state,String,Optional,fake.state_abbr(),Random,,,,Approved,,,,7.21
-Guardian().Address.postalCode,String,Optional,fake.postcode(),Random,,,,Approved,,,,7.21
-Guardian().Address.country,String,Optional,fake.country(),US,,,,Approved,,,,7.21
-Guardian().Address.type,String,Optional,"fake.random_element(('Main', 'Summer', 'Old'))","Main, Summer, Old",,,,Approved,,,,7.21
-Guardian().Address.Effective Date,date,Optional,fake.past_datetime(),Random,,,,Approved,,,,7.21
-Guardian().Address.End Date,date,Optional,"fake.future_datetime(end_date=""+3y"")",Random,,,,Approved,,,,7.21
-Guardian().Address.wheelchairAccess,Boolean,Optional,fake.boolean(chance_of_getting_true=75),"True, False",,,,Approved,,,,7.21
-EffDt,Date,Optional,fake.past_datetime(),Random,,effective date for this instance of the member data,,Approved,,,,7.21
-EndDt,Date,Optional,"fake.future_datetime(end_date=""+10y"")",Random,,end date for this instance of the member data,,Approved,,,,7.21
-SitusState,String,Optional,fake.state_abbr(),Random,,Member situs state,,Approved,,,,7.21
-BankAccount.Name,String ,Optional,fake.company(),Random,,"Only Primary Bank Account Recommend name change from Bank Account Information to Bank Acccount. This is not a change to Cigna",,Approved,,,,7.21
-BankAccount.AccountHolderName,String ,Optional,fake.name(),Random,,,,Approved,,,,7.21
-BankAccount.AccountNumber,String ,Optional,fake.iban(),Random,,,,Approved,,,,7.21
-BankAccount.AccountType,String ,Optional,"fake.random_element(('Checking', 'Savings'))",Random,,,,Approved,,,,7.21
-BankAccount.RoutingNumber,String ,Optional,fake.iban(),Random,,,,Approved,,,,7.21
-Employment().EmployeeIdentificationNumber,String,Optional,fake.ssn(),Random,,"1 Member can have many Employments Member employee identification number",,Approved,,,,7.21
-Weight,Integer,Optional,"fake.random_int(min=1, max=400)",1 - 400,,Member weight,,Approved,,,,7.21
-meta.CommitTs,date,Optional,fake.past_datetime(),Random,,,,Approved,,,,7.21
-meta.CreateTs,date,Optional,fake.past_datetime(),Random,,,,Approved,,,,7.21
-meta.CreateOperators,Integer,Optional,"fake.random_int(min=1, max=400)",1 - 400,,Operator,,Approved,,,,7.21
-meta.CreateSystemID,Integer,Optional,"fake.random_int(min=1, max=400)",1 - 400,,Operator,,Approved,,,,7.21
-meta.SaveTs,date,Optional,fake.past_datetime(),Random,,,,Approved,,,,7.21
-meta.UpdateTs,date,Optional,fake.past_datetime(),Random,,,,Approved,,,,7.21
-meta.UpdateOperator,Integer,Optional,"fake.random_int(min=1, max=400)",1 - 400,,Operator,,Approved,,,,7.21
-meta.UpdateOpName,String,Optional,"fake.random_element(('Insert', 'Update', 'Delete'))","Insert, Update, Delete",,,,Approved,,,,7.21
-meta.UpdateSystemID,Integer,Optional,"fake.random_int(min=1, max=400)",1 - 400,,Operator,,Approved,,,,7.21
-meta.CreateOpName,String,Optional,"fake.random_element(('Insert', 'Update', 'Delete'))","Insert, Update, Delete",,,,Approved,,,,7.21
+Resource.Property,Property Type,Optional/Required,Generator,Sample Data
+ID,String,Required,"ID(""M-"")","""M-"" + Incremental 1- 6 million"
+Last,String,Required,fake.last_name(),Random
+First,String,Optional,fake.first_name(),Random
+Middle,String,Optional,fake.first_name(),Random
+Suffix,String,Optional,fake.suffix(),Random
+Address().name,String,Optional,"fake.random_element(('Main', 'Summer', 'Old'))","Main, Summer, Old"
+Address().address Line1,String,Optional,fake.street_address(),Random
+Address().addressLine2,String,Optional,fake.secondary_address(),Random
+Address().city,String,Optional,fake.city(),Random
+Address().state,String,Optional,fake.state_abbr(),Random
+Address().postalCode,String,Optional,fake.postcode(),Random
+Address().country,String,Optional,fake.country(),US
+Address().coordinates,Decimal,Optional,"[float(str(fake.longitude())),float(str(fake.latitude()))]",Random
+location.type,String,Optional,"'points'",Random
+location.coordinates,Decimal,Optional,"[float(str(fake.longitude())),float(str(fake.latitude()))]",Random
+Address().type,String,Optional,"fake.random_element(('Main', 'Summer', 'Old'))","Main, Summer, Old"
+Address().EffDt,date,Optional,fake.past_datetime(),Random
+Address().EndDt,date,Optional,"fake.future_datetime(end_date=""+3y"")",Random
+Address().wheelchairAccess,boolean,Optional,fake.boolean(chance_of_getting_true=10),"True, False"
+Communication.Phone().phoneNumber,String,Optional,fake.phone_number(),Random
+Communication.Phone().type,String,Optional,"fake.random_element(('Home', 'Work', 'Cell', 'Fax', 'Pager'))","Home, Work, Cell, Fax, Pager"
+Communication.Email().emailAddress,String,Optional,fake.email(),Random
+Communication.Email().type,String,Optional,"fake.random_element(('Home', 'Work'))","Home, Work"
+Communication.SocialMedia().SocialMediaID,String,Optional,fake.user_name(),Random
+Communication.SocialMedia().SocialMediaType,String,Optional,"fake.random_element(('Facebook', 'Academia.edu', 'Bebo', 'CaringBridge', 'GoodReads', 'DailyStrength', 'Google+'))","Facebook, Academia.edu, Bebo, CaringBridge, GoodReads, DailyStrength, Google+"
+SSN,String,Optional,fake.ssn(),Random
+DOB,date,Required,fake.date_time(),Random
+gender,String,Required,"fake.random_element(('Male', 'Female', 'Other'))","Male, Female, Other"
+ethnicity,String,Optional,"fake.random_element(('White', 'American Indian', 'Asian', 'Hispanic', 'African American'))","White, American Indian, Asian, Hispanic, African American"
+maritialStatus,String,Optional,"fake.random_element(('Married', 'Widow', 'Single'))","Married, Widow, Single"
+EffDt,Date,Optional,fake.past_datetime(),Random
+EndDt,Date,Optional,"fake.future_datetime(end_date=""+8y"")",Random
+languages().ID,String,Optional,"fake.random_element(('Albanian', 'Farsi', 'Hindi', 'Korean', 'Polish', 'Spanish', 'Arabic', 'French', 'Hmong', 'Laotian', 'Portuguese', 'Tagalog', 'Armenian', 'German', 'Italian', 'Lithuanian', 'Punjabi', 'Thai', 'Bengali', 'Greek', 'Japanese', 'Malay', 'Romanian', 'Turkish', 'Burmese', 'Haitian Creole'))","Albanian,Farsi,Hindi,,Korean,Polish,Spanish,Arabic,French,Hmong,Laotian,Portuguese,Tagalog,Armenian,German,Italian,Lithuanian,Punjabi,Thai,Bengali,Greek,Japanese,Malay,Romanian,Turkish,Burmese,Haitian Creole"
+languages().Usage,String,Optional,"fake.random_element(('Spoken', 'Reading', 'Writing', 'Native'))","Spoken, Reading, Writing, Native"
+CitizenshipStatusCode,String,Optional,"fake.random_element(('Native', 'Naturalised', 'Alien Permanent', 'Alien Temporary', 'Citizen', 'Foreign Worker', 'Permanent Resident', 'Foreigh ID Card Holder'))","Native, Naturalised, Alien Permanent, Alien Temporary, Citizen, Foreign Worker, Permanent Resident, Foreigh ID Card Holder"
+Disability().StartDt,date,Optional,fake.past_datetime(),Random
+Disability().EndDt,date,Optional,"fake.future_datetime(end_date=""+3y"")",Random
+Disability().TypeCode,String ,Optional,"fake.random_element(('Autism', 'Emotional Disability', 'Hearing Imparement', 'Intellectual Disability', 'Other Health Imparement', 'Traumatic Brain Injury', 'Visual Imparement'))","Autism, Emotional Disability, Hearing Imparement, Intellectual Disability, Other Health Imparement, Traumatic Brain Injury, Visual Imparement"
+Guardian().Last,String ,Optional,fake.last_name(),Random
+Guardian().First,String ,Optional,fake.first_name(),Random
+Guardian().Type,String ,Optional,"fake.random_element(('Natural', 'Legal', 'Medical', 'Custodial'))","Natural, Legal, Medical, Custodial"
+Guardian().Address.name,String,Optional,"fake.random_element(('Main', 'Summer', 'Old'))","Main, Summer, Old"
+Guardian().Address.addressLine1,String,Optional,fake.street_address(),Random
+Guardian().Address.addressLine2,String,Optional,fake.secondary_address(),Random
+Guardian().Address.city,String,Optional,fake.city(),Random
+Guardian().Address.state,String,Optional,fake.state_abbr(),Random
+Guardian().Address.postalCode,String,Optional,fake.postcode(),Random
+Guardian().Address.country,String,Optional,fake.country(),US
+Guardian().Address.type,String,Optional,"fake.random_element(('Main', 'Summer', 'Old'))","Main, Summer, Old"
+Guardian().Address.Effective Date,date,Optional,fake.past_datetime(),Random
+Guardian().Address.End Date,date,Optional,"fake.future_datetime(end_date=""+3y"")",Random
+Guardian().Address.wheelchairAccess,Boolean,Optional,fake.boolean(chance_of_getting_true=75),"True, False"
+EffDt,Date,Optional,fake.past_datetime(),Random
+EndDt,Date,Optional,"fake.future_datetime(end_date=""+10y"")",Random
+SitusState,String,Optional,fake.state_abbr(),Random
+BankAccount.Name,String ,Optional,fake.company(),Random
+BankAccount.AccountHolderName,String ,Optional,fake.name(),Random
+BankAccount.AccountNumber,String ,Optional,fake.iban(),Random
+BankAccount.AccountType,String ,Optional,"fake.random_element(('Checking', 'Savings'))",Random
+BankAccount.RoutingNumber,String ,Optional,fake.iban(),Random
+Employment().EmployeeIdentificationNumber,String,Optional,fake.ssn(),Random
+Weight,Integer,Optional,"fake.random_int(min=1, max=400)",1 - 400
+meta.CommitTs,date,Optional,fake.past_datetime(),Random
+meta.CreateTs,date,Optional,fake.past_datetime(),Random
+meta.CreateOperators,Integer,Optional,"fake.random_int(min=1, max=400)",1 - 400
+meta.CreateSystemID,Integer,Optional,"fake.random_int(min=1, max=400)",1 - 400
+meta.SaveTs,date,Optional,fake.past_datetime(),Random
+meta.UpdateTs,date,Optional,fake.past_datetime(),Random
+meta.UpdateOperator,Integer,Optional,"fake.random_int(min=1, max=400)",1 - 400
+meta.UpdateOpName,String,Optional,"fake.random_element(('Insert', 'Update', 'Delete'))","Insert, Update, Delete"
+meta.UpdateSystemID,Integer,Optional,"fake.random_int(min=1, max=400)",1 - 400
+meta.CreateOpName,String,Optional,"fake.random_element(('Insert', 'Update', 'Delete'))","Insert, Update, Delete"
