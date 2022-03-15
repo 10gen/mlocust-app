@@ -1,0 +1,6 @@
+Resource.Property,Property Type,Optional/Required,Generator,Sample Data
+country,String,Required,"fake.random_element(('United States', 'United Kingdom', 'Canada', 'China', 'Japan', 'Australia'))","United States, United Kingdom, Canada, China, Japan, Australia"
+date,date,Required,"fake.past_datetime(start_date=""-3y"")",Random
+news_source,String,Required,"fake.random_element(('New York Times', 'London Times', 'Financial Times', 'Bloomberg News', 'The Economist', 'Standard and Poors'))","New York Times, London Times, Financial Times, Bloomberg News, The Economist, Standard and Poors"
+clicks,Integer,Required,"fake.random_int(min=100, max=10000)",100 - 10000
+term,String,Required,"fake.random_element(('Dow Jones', 'NASDAQ', 'MongoDB', 'Derivatives', 'Morgan Stanley', 'Technology'))","Dow Jones, NASDAQ, MongoDB, Derivatives, Morgan Stanley, Technology"
