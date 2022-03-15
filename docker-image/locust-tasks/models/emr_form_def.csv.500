@@ -1,0 +1,7 @@
+Resource.Property,Property Type,Optional/Required,Generator,Sample Data
+title,String,Required,"fake.paragraph(nb_sentences=1)",Random
+_pk,String,Required,"fake.random_element(('622fa44225fc8423ecb7a994', '6857c2be98a03b43b55193cc43cbf293039c8349', 'fb19567eb135d59319a91e1e9ed351b0efc1c821', '02347357d13590815eb822d13e8366e27cf35e1b', 'a56776e5b0c6fee9767b55764bce345672269ee0', 'aabd7c42b3d356378ae69696948f032e814a57c8', '3DA541559918A808C2402BBA5012F6C60B27661C', '27EF11C24A1D336F46C69762B655A1495656820F', '1DFC2F653D3098EF7C0A5DE88347C96E5A17718E', '5013974CD08254A187AEB8A9CCB1F97577E812DF', 'D036774DA8DD3A09B1F4CD8EAA3C8FFF9156EDAF', 'DED5098C3BCF5D3944FFC8EBC2BEEBE82859381E', 'E8C35B16CA7869F3C397AF6D7FF7DE2B5034C382', '06ECB00CE20F8C5BBDDF53BC9710CC9B6292BF51', '0AFD5F7BD3638256DD0A39C8152103DBA529F01E', 'BC0634783F1842F1B4CC616FEE9021E61352EEC7', 'E48DE88D69247C75916E83171795C94BC18A5759', 'E48DE88D69247C75916E83171795C94BC18A5759', 'D405C2CFA3FD3184EAB48C1E3A2ABF66A69CE57C', 'DE4F8B5B6040D80D2A422CE2B01A1034FE2808E5'))","Random sha1 with 5% variability"
+section().type,String,Required,"fake.random_element(('text', 'DDL'))","text, DDL"
+section().options,String,Optional,"fake.random_elements(('Philadelphia', 'New York', 'Atlanta', 'Chicago', 'Seattle', 'Los Angeles'), unique=True)","Philadelphia, New York, Atlanta, Chicago, Seattle, Los Angeles"
+section().displayText,String,Required,"fake.paragraph(nb_sentences=1)",Random
+section().question,String,Required,"fake.paragraph(nb_sentences=1)",Random

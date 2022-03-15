@@ -1,0 +1,12 @@
+Resource.Property,Property Type,Optional/Required,Generator,Sample Data
+ID,String,Required,"ID(""Item-"")","""M-"" + Incremental 1- 6 million"
+geolocation.type,String,Optional,"'Point'",Random
+geolocation.coordinates,Decimal,Optional,fake.local_latlng(country_code='UA')
+createdOn,date,Required,fake.past_datetime(start_date='-30d'),Random
+item.category,String ,Required,"fake.random_element(('Expertise','Shelter', 'Food or Beverage', 'Merchandise', 'Medical Supplies', 'Transportation', 'HotSpot'))","Expertise, Shelter, Food or Beverage, Merchandise, Medical Supplies, Transportation, HotSpot"
+item.name,String ,Required,"fake.random_element(('Doctor','Mechanic', 'Water', 'Blanket', 'Gasoline', 'WiFI'))",
+item.notes,String,Optional,fake.text(max_nb_chars=80),
+item.quantity,Number,Optional,fake.random_digit_not_null(),
+item.needed,Boolean,Optional,fake.boolean(chance_of_getting_true=75),"True, False"
+item.imagelink,String,Optional,fake.image_url()
+claimed,Boolean,Optional,fake.boolean(chance_of_getting_true=0),"True, False"
