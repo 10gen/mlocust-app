@@ -21,6 +21,9 @@ If you want to create your own model, use models/member.csv.100 as an example. Y
 
 ################################################################
 # Model Details
+# Note that the bulk insert params have not been optimized for
+# the mLocust clusters. If you notice that the bulk inserts
+# can be better tuned, please let me know.
 ################################################################
 1. member.csv.100: Sample model that has a little bit of everything. It represents member information, e.g. contact info and addresses etc.
 2. news_articles_metadata.csv.1000: News article metadata information used to represent news aggregation information.
