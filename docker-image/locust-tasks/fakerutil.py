@@ -75,10 +75,14 @@ def bulkFetch(model):
     # from the model name, derive the template file name along with bulk insert count
     # example model would be members.csv.100
     arr = model.split('.')
+
     template = "models/" + model 
     # Need to check if the model exists because the GKE container runs in a higher directory
     if not os.path.isfile(template): 
         template = "locust-tasks/" + template
+    # final check to see if the template exists
+    if not os.path.isfile(template):
+        raise Exception("Model file not found. " + template)
 
     bulkCount = int(arr[2])
 
