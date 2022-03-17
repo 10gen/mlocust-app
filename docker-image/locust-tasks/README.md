@@ -11,7 +11,7 @@ There are 2 types of use cases:
 python3 -m venv locust-env
 source locust-env/bin/activate
 python -m pip install -r requirements.txt
-locust -f locustfile.py or locust -f locustfile-faker.py
+locust -f locustfile.py -H na or locust -f locustfile-faker.py -H na
 deactivate
 
 ################################################################
@@ -25,6 +25,7 @@ If you want to create your own model, use models/member.csv.100 as an example. Y
 # the mLocust clusters. If you notice that the bulk inserts
 # can be better tuned, please let me know.
 ################################################################
+0. _reference.csv.1000: This is the model that showcases a little bit of everything. Use this as the starting point.
 1. member.csv.100: Sample model that has a little bit of everything. It represents member information, e.g. contact info and addresses etc.
 2. news_articles_metadata.csv.1000: News article metadata information used to represent news aggregation information.
 3. emr_form_def.csv.500 and emr_form_resp.csv.500: Represents EMR (hospital) forms and responses. These 2 models are expected to run at the same time so you'd have to update the locustfile-faker.py to have 2 tasks that each call one of the models.
