@@ -25,8 +25,8 @@ If you want to create your own model, use models/member.csv.100 as an example. Y
 # the mLocust clusters. If you notice that the bulk inserts
 # can be better tuned, please let me know.
 ################################################################
-0. _reference.csv.1000: This is the model that showcases a little bit of everything. Use this as the starting point.
-1. member.csv.100: Sample model that has a little bit of everything. It represents member information, e.g. contact info and addresses etc.
-2. news_articles_metadata.csv.1000: News article metadata information used to represent news aggregation information.
-3. emr_form_def.csv.500 and emr_form_resp.csv.500: Represents EMR (hospital) forms and responses. These 2 models are expected to run at the same time so you'd have to update the locustfile-faker.py to have 2 tasks that each call one of the models.
-4. disaster_relief_items.csv.1000: Disaster relief data representing anything that may be helpful for Ukraine efforts 
+0. _reference.csv.*: This is the model that showcases a little bit of everything. Use this as the starting point.
+1. member.csv.*: Sample model that has a little bit of everything. It represents member information, e.g. contact info and addresses etc.
+2. news_articles_metadata.csv.*: News article metadata information used to represent news aggregation information.
+3. emr_form_def.csv.* and emr_form_resp.csv.*: Represents EMR (hospital) forms and responses. These 2 models are expected to run at the same time so you'd have to update the locustfile-faker.py to have 2 tasks that each call one of the models.
+4. disaster_relief_items.csv.*: Disaster relief data representing anything that may be helpful for Ukraine efforts 
