@@ -1,10 +1,15 @@
 Resource.Property,Property Type,Optional/Required,Generator,Notes
 IncrementalId,String,Required,"ID(""M-"")","calls the ID function in fakerutil.py that just increments an int value and appends"
+arrayOfStandardDataTypes,String,Required,fake.random_letters(length=5),"Creating simple arrays using standard data types are not that simple for pyfaker. You can do array of objects easily. Pyfaker only returns lists for random_choices, random_elements, random_letters, and random_sample afaik."
+currArraySize,Number,Required,setArraySize(10),"Setting current max array size to 10"
+arrayUsingCurrArraySize().randomInt,Number,Required,fake.random_digit_not_null(),"Show that this array will not exceed currArraySize"
+newCurrArraySize,Number,Required,setArraySize(2),"Setting current max array size to 2"
+newArrayUsingCurrArraySize().randomInt,Number,Required,fake.random_digit_not_null(),"Show that this array will not exceed the new currArraySize"
 Last,String,Required,fake.last_name(),Random
 First,String,Optional,fake.first_name(),Random
 Suffix,String,Optional,fake.suffix(),Random
-section().cities,String,Required,"fake.random_elements(('Philadelphia', 'New York', 'Atlanta', 'Chicago', 'Seattle', 'Los Angeles'), unique=True)","Array of sections with a string array of unique cities"
-Sentences,String,Required,"fake.paragraph(nb_sentences=1)",Random
+locations().cities,String,Required,"fake.random_elements(('Philadelphia', 'New York', 'Atlanta', 'Chicago', 'Seattle', 'Los Angeles'), unique=True)","Array of sections with a string array of unique cities"
+randomSentence,String,Required,"fake.paragraph(nb_sentences=1)",Random
 item.imagelink,String,Required,fake.image_url(),"Item object with an image url"
 item.notes,String,Optional,fake.text(max_nb_chars=80),"ipsum lorem"
 item.quantity,Number,Optional,fake.random_digit_not_null(),Random
@@ -18,8 +23,8 @@ Address().country,String,Optional,fake.country(),US
 Address().EffDt,date,Optional,fake.past_datetime(),Random
 Address().EndDt,date,Optional,"fake.future_datetime(end_date=""+3y"")",Random
 Address().wheelchairAccess,boolean,Optional,fake.boolean(chance_of_getting_true=10),"True, False"
-location.type,String,Optional,"'points'","Example of geospatial coords"
-location.coordinates,Decimal,Optional,"[float(str(fake.longitude())),float(str(fake.latitude()))]",Random
+geo.type,String,Optional,"'points'","Example of geospatial coords"
+geo.coordinates,Decimal,Optional,"[float(str(fake.longitude())),float(str(fake.latitude()))]",Random
 Communication.Phone().phoneNumber,String,Optional,fake.phone_number(),Random
 Communication.Phone().type,String,Optional,"fake.random_element(('Home', 'Work', 'Cell', 'Fax', 'Pager'))","Home, Work, Cell, Fax, Pager"
 Communication.Email().emailAddress,String,Optional,fake.email(),Random

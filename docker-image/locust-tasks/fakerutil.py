@@ -21,7 +21,8 @@ import re
 # worker CPU/RAM
 ############################################################################################################
 
-stripProp = lambda str: re.sub(r'\s+', '', (str[0].upper() + str[1:].strip('()')))
+# This used to uppercase the first letter of the string. Removed it for now.
+stripProp = lambda str: re.sub(r'\s+', '', (str[0] + str[1:].strip('()')))
 fake = Faker()
 
 # This serializer isn't needed anymore as long as we use faker.datetime.datetime instead of datetime.date
@@ -71,6 +72,13 @@ merger = Merger([
 starting_id_minus_1 = 0 
 id_map = defaultdict(int)
 
+# Set a variable for how many array elements someone wants
+maxArraySize = 5
+def setArraySize(size):
+     global maxArraySize
+     maxArraySize = size
+     return size
+
 def bulkFetch(model):
     # from the model name, derive the template file name along with bulk insert count
     # example model would be members.csv.100
@@ -91,7 +99,7 @@ def bulkFetch(model):
 
     for J in range(0, bulkCount): # iterate through the bulk insert count
         # A dictionary that will provide consistent, random list lengths
-        counts = defaultdict(lambda: random.randint(1, 5))
+        counts = defaultdict(lambda: random.randint(1, maxArraySize))
         data = {}
         with open(template) as csvfile:
             propreader = csv.reader(itertools.islice(csvfile, 1, None))
