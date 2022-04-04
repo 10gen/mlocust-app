@@ -98,9 +98,9 @@ class MetricsLocust(User):
             l = fakerutil.bulkFetch(model)
             coll.insert_many(l)
 
-            events.request_success.fire(request_type="pymongo", name=name, response_time=(time.time()-tic), response_length=0)
+            events.request_success.fire(request_type="pymongo", name=name, response_time=(time.time()-tic)*1000, response_length=0)
         except Exception as e:
-            events.request_failure.fire(request_type="pymongo", name=name, response_time=(time.time()-tic), response_length=0, exception=e)
+            events.request_failure.fire(request_type="pymongo", name=name, response_time=(time.time()-tic)*1000, response_length=0, exception=e)
             self.audit("exception", e)
             # Add a sleep for just faker gen so we don't hammer the system with file not found ex
             time.sleep(5)

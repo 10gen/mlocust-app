@@ -81,7 +81,7 @@ class MetricsLocust(User):
         try:
             # Get the record from the TEST collection now
             coll.find_one({}, {"_id":1})
-            events.request_success.fire(request_type="pymongo", name=name, response_time=(time.time()-tic), response_length=0)
+            events.request_success.fire(request_type="pymongo", name=name, response_time=(time.time()-tic)*1000, response_length=0)
         except Exception as e:
-            events.request_failure.fire(request_type="pymongo", name=name, response_time=(time.time()-tic), response_length=0, exception=e)
+            events.request_failure.fire(request_type="pymongo", name=name, response_time=(time.time()-tic)*1000, response_length=0, exception=e)
             self.audit("exception", e)
