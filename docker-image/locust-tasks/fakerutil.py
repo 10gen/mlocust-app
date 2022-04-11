@@ -79,11 +79,7 @@ def setArraySize(size):
      maxArraySize = size
      return size
 
-def bulkFetch(model):
-    # from the model name, derive the template file name along with bulk insert count
-    # example model would be members.csv.100
-    arr = model.split('.')
-
+def bulkFetch(model, bulk_size):
     template = "models/" + model 
     # Need to check if the model exists because the GKE container runs in a higher directory
     if not os.path.isfile(template): 
@@ -92,12 +88,10 @@ def bulkFetch(model):
     if not os.path.isfile(template):
         raise Exception("Model file not found. " + template)
 
-    bulkCount = int(arr[2])
-
     # instantiate a new list
     l = []
 
-    for J in range(0, bulkCount): # iterate through the bulk insert count
+    for J in range(0, bulk_size): # iterate through the bulk insert count
         # A dictionary that will provide consistent, random list lengths
         counts = defaultdict(lambda: random.randint(1, maxArraySize))
         data = {}

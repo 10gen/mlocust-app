@@ -16,7 +16,7 @@
 
 
 LOCUST="/usr/local/bin/locust"
-LOCUS_OPTS="-f /locust-tasks/locustfile.py --host=$TARGET_HOST"
+LOCUS_OPTS="-f /locust-tasks/locustfile.py -H \"<srv, incl secondaryPreferred>|<optional bulk insert batch size>\""
 LOCUST_MODE=${LOCUST_MODE:-standalone}
 
 if [[ "$LOCUST_MODE" = "master" ]]; then

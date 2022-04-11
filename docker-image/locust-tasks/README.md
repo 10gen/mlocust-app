@@ -11,7 +11,7 @@ There are 2 types of use cases:
 python3 -m venv locust-env
 source locust-env/bin/activate
 python -m pip install -r requirements.txt
-locust -f locustfile.py -H na or locust -f locustfile-faker.py -H na
+locust -f locustfile.py -H "<srv, incl secondaryPreferred>|<db>|<coll>" or locust -f locustfile-faker.py -H "<srv, incl secondaryPreferred>|<db>|<coll>|<model name>|<bulk insert batch size>"
 deactivate
 
 ################################################################

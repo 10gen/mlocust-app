@@ -30,20 +30,20 @@ import fakerutil
 
 ########################################################################
 # Global Static Variables that can be accessed without referencing self
-# Change the connection string to point to the correct db 
-# and double check the readpreference etc.
+# The values are initialized with None till they get set from the
+# actual locust exeuction when the host param is passed in.
 ########################################################################
-try:
-    client = pymongo.MongoClient("mongodb+srv://<username>:<password>@<srv>/myFirstDatabase?retryWrites=true&w=majority&readPreference=secondaryPreferred")
-    coll = client.locust.faker
-    # Log all application exceptions (and audits) to the same cluster
-    audit = client.locust.audit
-    # Set the model file name. The model file suffix is the recommended number of bulk inserts that should be done per mLocust worker
-    # The model file MUST be checked into git else the mLocust workers won't know it exists
-    model = "<model filename in models dir>"
-except Exception as e:
-   print('Fatal Exception (unable to log error): ', e)
-   exit()
+# pymongo connection pool
+client = None
+# Which collection will be targeting
+coll = None
+# Log all application exceptions (and audits) to the same cluster
+audit = None
+# Set the model file name. The model file suffix is the recommended number of bulk inserts that should be done per mLocust worker
+# The model file MUST be checked into git else the mLocust workers won't know it exists
+model = None 
+# how many inserts per batch
+bulk_size = None
 
 ########################################################################
 # Even though locust is designed for concurrency of simulated users,
@@ -57,6 +57,39 @@ class MetricsLocust(User):
     # second basis, since we are trying to load data asap, there will 
     # be no throttling
     ####################################################################
+
+    ####################################################################
+    # Initialize any env vars from the host parameter
+    # Make sure it's a singleton so we only have 1 conn pool for 1k
+    # Set the target collections and such here
+    ####################################################################
+    def __init__(self, parent):
+        super().__init__(parent)
+
+        # specify that the following vars are global vars
+        global client, coll, audit, model, bulk_size
+
+        # Singleton
+        if (client is None):
+            # Parse out env variables from the host
+            # FYI, you can pass in more env vars if you so choose
+            vars = self.host.split("|")
+            srv = vars[0]
+            print("SRV:",srv)
+            client = pymongo.MongoClient(srv)
+
+            # Define the target db and coll here
+            db = client[vars[1]]
+            coll = db[vars[2]]
+
+            # Specify the model, without the model directory name.
+            # The model must be checked into git else it wont' work in prod
+            model = vars[3]
+
+            bulk_size = int(vars[4])
+
+            # Log all application exceptions (and audits) to the same cluster
+            audit = client.mlocust.audit
 
     ################################################################
     # Example helper function that is not a Locust task.
@@ -92,10 +125,10 @@ class MetricsLocust(User):
         # Note that you don't pass in self despite the signature above
         tic = self.get_time();
         name = "bulkinsert";
- 
+
         try:
             # Logic for bulk insert goes here using the pyfaker util
-            l = fakerutil.bulkFetch(model)
+            l = fakerutil.bulkFetch(model, bulk_size)
             coll.insert_many(l)
 
             events.request_success.fire(request_type="pymongo", name=name, response_time=(time.time()-tic)*1000, response_length=0)

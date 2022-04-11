@@ -27,17 +27,15 @@ import time
 
 ########################################################################
 # Global Static Variables that can be accessed without referencing self
-# Change the connection string to point to the correct db 
-# and double check the readpreference etc.
+# The values are initialized with None till they get set from the
+# actual locust exeuction when the host param is passed in.
 ########################################################################
-try:
-    client = pymongo.MongoClient("mongodb+srv://<username>:<password>@<srv>/myFirstDatabase?retryWrites=true&w=majority&readPreference=secondaryPreferred")
-    coll = client.sample_airbnb.listingsAndReviews
-    # Log all application exceptions (and audits) to the same cluster
-    audit = client.locust.audit
-except Exception as e:
-   print('Fatal Exception (unable to log error): ', e)
-   exit()
+# pymongo connection pool
+client = None
+# Which collection will be targeting
+coll = None
+# Log all application exceptions (and audits) to the same cluster
+audit = None
 
 class MetricsLocust(User):
     ####################################################################
@@ -49,6 +47,33 @@ class MetricsLocust(User):
     # We can increase throughput by running more concurrent users.
     ####################################################################
     wait_time = between(1, 1)
+
+    ####################################################################
+    # Initialize any env vars from the host parameter
+    # Make sure it's a singleton so we only have 1 conn pool for 1k
+    # Set the target collections and such here
+    ####################################################################
+    def __init__(self, parent):
+        super().__init__(parent)
+
+        # specify that the following vars are global vars
+        global client, coll, audit
+
+        # Singleton
+        if (client is None):
+            # Parse out env variables from the host
+            # FYI, you can pass in more env vars if you so choose
+            vars = self.host.split("|")
+            srv = vars[0]
+            print("SRV:",srv)
+            client = pymongo.MongoClient(srv)
+
+            # Define the target db and coll here
+            db = client[vars[1]]
+            coll = db[vars[2]]
+
+            # Log all application exceptions (and audits) to the same cluster
+            audit = client.mlocust.audit
 
     ################################################################
     # Example helper function that is not a Locust task.
