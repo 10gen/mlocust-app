@@ -1,32 +1,29 @@
-################################################################
 # Overview
-################################################################
 There are 2 types of use cases:
 1. Load testing by creating a custom locustfile.py
 2. Data generation using an existing model found in models dir and using locustfile-faker.py
 
-################################################################
-# For local testing, run the following commands:
-################################################################
+It's suggested that you copy one of the existing locust file templates and not modify the existing template.
+
+# Local Testing
+```
 python3 -m venv locust-env
+
 source locust-env/bin/activate
+
 python -m pip install -r requirements.txt
-locust -f locustfile.py -H "<srv, incl secondaryPreferred>|<db>|<coll>" or locust -f locustfile-faker.py -H "<srv, incl secondaryPreferred>|<db>|<coll>|<model name>|<bulk insert batch size>"
+
+locust -f locustfile.py -H "srv_2ndarypref|db|coll" or locust -f locustfile-faker.py -H "srv_2ndarypref|db|coll|opt_model|opt_batchsize"
+
 deactivate
+```
 
-################################################################
-# Creating your own pyfaker model 
-################################################################
-If you want to create your own model, use models/member.csv.100 as an example. Your model filename must end with the recommended number of bulk inserts a single worker can handle using a single simulated user. You'll have to iteratively check-in codes and test on mLocust till you figure out the right number.
+# Create Your Own Pyfaker Model 
+If you want to create your own model, use models/_reference.csv as an example.
 
-################################################################
 # Model Details
-# Note that the bulk insert params have not been optimized for
-# the mLocust clusters. If you notice that the bulk inserts
-# can be better tuned, please let me know.
-################################################################
-0. _reference.csv.*: This is the model that showcases a little bit of everything. Use this as the starting point.
-1. member.csv.*: Sample model that has a little bit of everything. It represents member information, e.g. contact info and addresses etc.
-2. news_articles_metadata.csv.*: News article metadata information used to represent news aggregation information.
-3. emr_form_def.csv.* and emr_form_resp.csv.*: Represents EMR (hospital) forms and responses. These 2 models are expected to run at the same time so you'd have to update the locustfile-faker.py to have 2 tasks that each call one of the models.
-4. disaster_relief_items.csv.*: Disaster relief data representing anything that may be helpful for Ukraine efforts 
+0. _reference.csv: This is the model that showcases a little bit of everything. Use this as the starting point.
+1. member.csv: Sample model that has a little bit of everything. It represents member information, e.g. contact info and addresses etc.
+2. news_articles_metadata.csv: News article metadata information used to represent news aggregation information.
+3. emr_form_def.csv and emr_form_resp.csv: Represents EMR (hospital) forms and responses. These 2 models are expected to run at the same time so you'd have to update the locustfile-faker.py to have 2 tasks that each call one of the models.
+4. disaster_relief_items.csv: Disaster relief data representing anything that may be helpful for Ukraine efforts 
