@@ -2,11 +2,10 @@
 
 ########################################################################
 #
-# Many of you like to get fancy by creating separate object classes
-# and external file dependencies, e.g. json files, 
-# I discourage you from doing that because there are file path
-# reference issues that make things difficult when you containerize
-# and deploy to gke. Try to keep everything in this 1 file.
+# ANYTHING THAT REQUIRES YOUR ATTENTION WILL HAVE A TODO IN THE COMMENTS
+# Do not create external files outside of this locust file!
+# mLocust only allows you to upload a single python file atm.
+# Please keep everything in this 1 file.
 #
 ########################################################################
 
@@ -15,8 +14,8 @@ import gevent
 _ = gevent.monkey.patch_all()
 
 ########################################################################
-# Add any additional imports here.
-# But make sure to include in requirements.txt
+# TODO Add any additional imports here.
+# TODO Make sure to include in requirements.txt if necessary
 ########################################################################
 import pymongo
 from bson import json_util
@@ -30,11 +29,9 @@ import time
 # The values are initialized with None till they get set from the
 # actual locust exeuction when the host param is passed in.
 ########################################################################
-# pymongo connection pool
+# DO NOT MODIFY! PASS IN VIA HOST PARAM.
 client = None
-# Which collection will be targeting
 coll = None
-# Log all application exceptions (and audits) to the same cluster
 audit = None
 
 class MetricsLocust(User):
@@ -50,7 +47,7 @@ class MetricsLocust(User):
 
     ####################################################################
     # Initialize any env vars from the host parameter
-    # Make sure it's a singleton so we only have 1 conn pool for 1k
+    # Make sure it's a singleton so we only set conn pool once
     # Set the target collections and such here
     ####################################################################
     def __init__(self, parent):
@@ -60,6 +57,8 @@ class MetricsLocust(User):
         global client, coll, audit
 
         # Singleton
+        # TODO Pass in the env vars using the Host field for locust, e.g. srv|db|coll
+        # TODO Make sure your srv has the right read and write preference to optimize perf
         if (client is None):
             # Parse out env variables from the host
             # FYI, you can pass in more env vars if you so choose
@@ -79,6 +78,7 @@ class MetricsLocust(User):
     # Example helper function that is not a Locust task.
     # All Locust tasks require the @task annotation
     # You have to pass the self reference for all helper functions
+    # TODO Create any additional helper functions here
     ################################################################
     def get_time(self):
         return time.time()
@@ -96,6 +96,7 @@ class MetricsLocust(User):
     # Start defining tasks and assign a weight to it.
     # All tasks need the @task() notation.
     # Weights indicate the chance to execute, e.g. 1=1x, 5=5x, etc.
+    # TODO Create any additional task functions here
     ################################################################
     @task(1)
     def _async_find(self):
@@ -104,7 +105,7 @@ class MetricsLocust(User):
         name = "singleFetch";
 
         try:
-            # Get the record from the TEST collection now
+            # Get the record from the target collection now
             coll.find_one({}, {"_id":1})
             events.request_success.fire(request_type="pymongo", name=name, response_time=(time.time()-tic)*1000, response_length=0)
         except Exception as e:

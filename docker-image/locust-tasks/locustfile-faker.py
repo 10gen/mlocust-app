@@ -2,11 +2,10 @@
 
 ########################################################################
 #
-# Many of you like to get fancy by creating separate object classes
-# and external file dependencies, e.g. json files, 
-# I discourage you from doing that because there are file path
-# reference issues that make things difficult when you containerize
-# and deploy to gke. Try to keep everything in this 1 file.
+# ANYTHING THAT REQUIRES YOUR ATTENTION WILL HAVE A TODO IN THE COMMENTS
+# Do not create external files outside of this locust file!
+# mLocust only allows you to upload a single python file atm.
+# Please keep everything in this 1 file.
 # The only exception to this rule are faker models which need to be
 # pre-built and tested and checked in.
 #
@@ -17,8 +16,8 @@ import gevent
 _ = gevent.monkey.patch_all()
 
 ########################################################################
-# Add any additional imports here.
-# But make sure to include in requirements.txt
+# TODO Add any additional imports here.
+# TODO Make sure to include in requirements.txt if necessary
 ########################################################################
 import pymongo
 from bson import json_util
@@ -33,16 +32,12 @@ import fakerutil
 # The values are initialized with None till they get set from the
 # actual locust exeuction when the host param is passed in.
 ########################################################################
-# pymongo connection pool
+# DO NOT MODIFY! PASS IN VIA HOST PARAM.
 client = None
-# Which collection will be targeting
 coll = None
-# Log all application exceptions (and audits) to the same cluster
 audit = None
-# Set the model file name. The model file suffix is the recommended number of bulk inserts that should be done per mLocust worker
-# The model file MUST be checked into git else the mLocust workers won't know it exists
+# TODO If you are using a custom model, make sure it gets checked in
 model = None 
-# how many inserts per batch
 bulk_size = None
 
 ########################################################################
@@ -50,6 +45,7 @@ bulk_size = None
 # given how resource intensive fakers/bulk inserts are,
 # you should only run 1 simulated user / worker else you'll kill the 
 # CPU of the workers.
+# TODO In the locust UI, specify 1 user per worker
 ########################################################################
 class MetricsLocust(User):
     ####################################################################
@@ -60,7 +56,7 @@ class MetricsLocust(User):
 
     ####################################################################
     # Initialize any env vars from the host parameter
-    # Make sure it's a singleton so we only have 1 conn pool for 1k
+    # Make sure it's a singleton so we only set conn pool once
     # Set the target collections and such here
     ####################################################################
     def __init__(self, parent):
@@ -70,6 +66,8 @@ class MetricsLocust(User):
         global client, coll, audit, model, bulk_size
 
         # Singleton
+        # TODO Pass in the env vars using the Host field for locust, e.g. srv|db|coll|model|bulkSize
+        # TODO Make sure your srv has the right read and write preference to optimize perf
         if (client is None):
             # Parse out env variables from the host
             # FYI, you can pass in more env vars if you so choose
@@ -95,6 +93,7 @@ class MetricsLocust(User):
     # Example helper function that is not a Locust task.
     # All Locust tasks require the @task annotation
     # You have to pass the self reference for all helper functions
+    # TODO Create any additional helper functions here
     ################################################################
     def get_time(self):
         return time.time()
@@ -109,9 +108,9 @@ class MetricsLocust(User):
         audit.insert_one({"type":type, "ts":self.get_time(), "msg":str(msg)})
 
     ################################################################
-    # Since the loader is designed to be single threaded with 1 user
+    # Since the loader is designed for 1 user
     # There's no need to set a weight to the task.
-    # Do not create additional tasks in conjunction with the loader
+    # Do not create additional aggregation/find tasks in conjunction with the loader
     # If you are testing running queries while the loader is running
     # deploy 2 clusters in mLocust with one running faker and the
     # other running query tasks
