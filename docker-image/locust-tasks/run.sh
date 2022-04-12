@@ -16,7 +16,7 @@
 
 
 LOCUST="/usr/local/bin/locust"
-LOCUS_OPTS="-f /locust-tasks/locustfile.py --host=\"pipe delim env vars go here\""
+LOCUS_OPTS="-f /locust-tasks/locustfile.py --host=\"pipe|delim|env|vars|here\""
 LOCUST_MODE=${LOCUST_MODE:-standalone}
 
 if [[ "$LOCUST_MODE" = "master" ]]; then
