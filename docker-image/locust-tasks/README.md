@@ -13,7 +13,10 @@ source locust-env/bin/activate
 
 python -m pip install -r requirements.txt
 
-locust -f locustfile.py -H "srv_2ndarypref|db|coll" or locust -f locustfile-faker.py -H "srv_2ndarypref|db|coll|opt_model|opt_batchsize"
+Example executions:
+locust -f locustfile.py -H "srv_2ndarypref|db|coll"
+locust -f locustfile-faker.py -H "srv_2ndarypref|db|coll|opt_model|opt_batchsize"
+locust -f locustfile-faker-custom.py -H "srv_2ndarypref|db|coll|opt_model|opt_batchsize"
 
 deactivate
 ```

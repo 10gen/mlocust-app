@@ -1,2 +1,3 @@
 docker-image/locust-tasks/__pycache__/
 docker-image/locust-tasks/locust-env/
+docker-image/locust-tasks/dev/
