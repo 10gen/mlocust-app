@@ -20,7 +20,7 @@ spec:
     spec:
       containers:
         - name: locust-worker
-          image: gcr.io/[PROJECT_ID]/[CLUSTER_NM]:latest
+          image: gcr.io/[PROJECT_ID]/mlocust-imgs:[TAG]
           resources:
             limits:
               cpu: "0.94"
@@ -32,4 +32,4 @@ spec:
             - name: LOCUST_MASTER
               value: locust-master
             - name: TARGET_HOST
-              value: https://[TARGET_HOST]
+              value: [TARGET_HOST]

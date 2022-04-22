@@ -20,7 +20,7 @@ spec:
     spec:
       containers:
         - name: locust-master
-          image: gcr.io/[PROJECT_ID]/[CLUSTER_NM]:latest
+          image: gcr.io/[PROJECT_ID]/mlocust-images:[TAG]
           resources:
             limits:
               cpu: "0.94"
@@ -30,7 +30,7 @@ spec:
             - name: LOCUST_MODE
               value: master
             - name: TARGET_HOST
-              value: https://[TARGET_HOST]
+              value: [TARGET_HOST]
           ports:
             - name: loc-master-web
               containerPort: 8089
