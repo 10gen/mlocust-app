@@ -2,6 +2,14 @@
 
 ########################################################################
 #
+#                    Recommended Usage:
+#                    Users: 1000 * workers
+#                    Host: srv|db|coll|bulksize
+#
+########################################################################
+
+########################################################################
+#
 # Many of you like to get fancy by creating separate object classes
 # and external file dependencies, e.g. json files, 
 # I discourage you from doing that because there are file path

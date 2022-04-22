@@ -2,6 +2,14 @@
 
 ########################################################################
 #
+#                    Recommended Usage:
+#                    Users: 1000 * workers
+#                    Host: srv|db|coll|model|bulksize
+#
+########################################################################
+
+########################################################################
+#
 # ANYTHING THAT REQUIRES YOUR ATTENTION WILL HAVE A TODO IN THE COMMENTS
 # Do not create external files outside of this locust file!
 # mLocust only allows you to upload a single python file atm.
