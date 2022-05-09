@@ -73,27 +73,27 @@ class MetricsLocust(User):
         # specify that the following vars are global vars
         global client, coll, audit, model, bulk_size
 
+        # Parse out env variables from the host
+        # FYI, you can pass in more env vars if you so choose
+        vars = self.host.split("|")
+        srv = vars[0]
+        print("SRV:",srv)
+        client = pymongo.MongoClient(srv)
+
+        # Define the target db and coll here
+        db = client[vars[1]]
+        coll = db[vars[2]]
+
+        # Specify the model, without the model directory name.
+        # The model must be checked into git else it wont' work in prod
+        model = vars[3]
+
+        bulk_size = int(vars[4])
+
         # Singleton
         # TODO Pass in the env vars using the Host field for locust, e.g. srv|db|coll|model|bulkSize
         # TODO Make sure your srv has the right read and write preference to optimize perf
         if (client is None):
-            # Parse out env variables from the host
-            # FYI, you can pass in more env vars if you so choose
-            vars = self.host.split("|")
-            srv = vars[0]
-            print("SRV:",srv)
-            client = pymongo.MongoClient(srv)
-
-            # Define the target db and coll here
-            db = client[vars[1]]
-            coll = db[vars[2]]
-
-            # Specify the model, without the model directory name.
-            # The model must be checked into git else it wont' work in prod
-            model = vars[3]
-
-            bulk_size = int(vars[4])
-
             # Log all application exceptions (and audits) to the same cluster
             audit = client.mlocust.audit
 
