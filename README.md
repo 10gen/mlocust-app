@@ -1,4 +1,7 @@
-## Distribute Load Testing Using GKE
+## mLocust Quickstart
+https://github.com/10gen/mlocust-app/tree/master/docker-image/locust-tasks
+
+## How things were done pre-mLocust. Distributed Load Testing Using GKE
 
 **The original online instructions can be found here: https://cloud.google.com/architecture/distributed-load-testing-using-gke
 It has diagrams and is more suited for copying/pasting etc. But PLEASE follow along this README too as steps have been optimized from much testing. The major difference is that the Google lab uses a sample AppEngine app to load test against (as opposed to testing against MDB) and their Git repo is dated using Locust 0.7 and isn't optimized for higher scale performance.**
