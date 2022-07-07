@@ -23,7 +23,6 @@ ADD licenses /licenses
 ADD locust-tasks /locust-tasks
 
 # Install the required dependencies via pip
-RUN pip install --upgrade pip
 RUN pip install -r /locust-tasks/requirements.txt
 
 # Expose the required Locust ports
