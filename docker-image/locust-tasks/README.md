@@ -11,6 +11,7 @@ python3 -m venv locust-env
 
 source locust-env/bin/activate
 
+python -m pip install --upgrade pip
 python -m pip install -r requirements.txt
 
 Example executions:
