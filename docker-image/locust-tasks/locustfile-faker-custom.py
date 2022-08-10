@@ -552,21 +552,21 @@ class MetricsLocust(User):
 
         global client, coll, audit, batch_size
 
-        # Parse out env variables from the host
-        vars = self.host.split("|")
-        srv = vars[0]
-        print("SRV:",srv)
-        client = pymongo.MongoClient(srv)
-
-        db = client[vars[1]]
-        coll = db[vars[2]]
-
-        # docs to insert per batch insert
-        batch_size = int(vars[3])
-        print("Batch size from Host:",batch_size)
-
         # Singleton
         if (client is None):
+            # Parse out env variables from the host
+            vars = self.host.split("|")
+            srv = vars[0]
+            print("SRV:",srv)
+            client = pymongo.MongoClient(srv)
+
+            db = client[vars[1]]
+            coll = db[vars[2]]
+
+            # docs to insert per batch insert
+            batch_size = int(vars[3])
+            print("Batch size from Host:",batch_size)
+
             # Log all application exceptions (and audits) to the same cluster
             audit = client.mlocust.audit
 

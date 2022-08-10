@@ -64,21 +64,21 @@ class MetricsLocust(User):
         # specify that the following vars are global vars
         global client, coll, audit
 
-        # Parse out env variables from the host
-        # FYI, you can pass in more env vars if you so choose
-        vars = self.host.split("|")
-        srv = vars[0]
-        print("SRV:",srv)
-        client = pymongo.MongoClient(srv)
-
-        # Define the target db and coll here
-        db = client[vars[1]]
-        coll = db[vars[2]]
-
         # Singleton
         # TODO Pass in the env vars using the Host field for locust, e.g. srv|db|coll
         # TODO Make sure your srv has the right read and write preference to optimize perf
         if (client is None):
+            # Parse out env variables from the host
+            # FYI, you can pass in more env vars if you so choose
+            vars = self.host.split("|")
+            srv = vars[0]
+            print("SRV:",srv)
+            client = pymongo.MongoClient(srv)
+
+            # Define the target db and coll here
+            db = client[vars[1]]
+            coll = db[vars[2]]
+
             # Log all application exceptions (and audits) to the same cluster
             audit = client.mlocust.audit
 
