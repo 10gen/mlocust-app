@@ -104,7 +104,7 @@ class SampleProduct:
 
     def get_order_lines(self):
         order_lines = []
-        for i in range(1, self.order_item_quantity):
+        for i in range(1, 5):
             order_lines.append({
                 "lineNumber": 1,
                 "SKU": fake.bothify(text = "??????????", letters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890'),
@@ -113,7 +113,7 @@ class SampleProduct:
                 "productImage": "https://edge.disstg.commercecloud.salesforce.com/dw/image/v2/aaqx_stg/on/demandware.static/Sites-adidas-US-Site/Sites-adidas-products/en_US/v1643728798340/zoom/034563_01_standard.jpg",
                 "UPC": random.randint(100000000000,900000000000),
                 "divisionCode": random.randrange(1,9),
-                "orderedQuantity": self.order_item_quantity,
+                "orderedQuantity": 5,
                 "unitGrossPrice": round(random.uniform(1,220), 2),
                 "unitNetPrice": round(random.uniform(1,250), 2),
                 "orderLineCharges": [
