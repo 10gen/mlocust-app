@@ -60,33 +60,7 @@ batch_size = None
 fake = Faker()
 
 # Custom Class
-class DecimalCodec(TypeCodec):
-    python_type = Decimal  # the Python type acted upon by this type codec
-    bson_type = Decimal128  # the BSON type acted upon by this type codec
-
-    def transform_python(self, value):
-        """
-        Function that transforms a custom type value into a type
-        that BSON can encode.
-        """
-        return Decimal128(value)
-
-    def transform_bson(self, value):
-        """
-        Function that transforms a vanilla BSON type value into our
-        custom type.
-        """
-        return value.to_decimal()
-
 class SampleProduct:
-
-    def reset(self):
-        self.order_item_quantity = random.randint(1, 4)
-        self.order_amount = 0
-
-    def generate(self):
-        self.reset()
-        return self.create_product()
 
     def create_product(self):
         return {
@@ -249,62 +223,6 @@ class SampleProduct:
                         "value": fake.date_time_between(start_date=datetime(2020, 12, 31)),
                     },
                     {
-                        "name": "detailedShipmentStatusExpected",
-                        "value": True
-                    },
-                    {
-                        "name": "taxClassID",
-                        "value": "FullTax"
-                    },
-                    {
-                        "name": "type",
-                        "value": "inline"
-                    },
-                    {
-                        "name": "normalizedPhone",
-                        "value": {
-                            "phone": 1
-                        }
-                    },
-                    {
-                        "name": "SettlementComplete",
-                        "value": False
-                    },
-                    {
-                        "name": "aromaStatus",
-                        "value": "CREATED"
-                    },
-                    {
-                        "name": "carrierName",
-                        "value": random.choice(["Standard Delivery", "Express Delivery", "One-day Delivery"])
-                    },
-                    {
-                        "name": "deliveryMessage",
-                        "value": "inline"
-                    },
-                    {
-                        "name": "displayDeliveryInformation",
-                        "value": {
-                            "shippingMethodName": "Standard Delivery"
-                        }
-                    },
-                    {
-                        "name": "isSMSenabled",
-                        "value": random.randint(1,9)
-                    },
-                    {
-                        "name": "releaseTime",
-                        "value": fake.date_time_between(start_date=datetime(2020, 12, 31)),
-                    },
-                    {
-                        "name": "shippingNode",
-                        "value": "adidasUS_DC1"
-                    },
-                    {
-                        "name": "subOrderNo",
-                        "value": "AD199715227a"
-                    },
-                    {
                         "name": "type",
                         "value": "inline"
                     }
@@ -344,122 +262,6 @@ class SampleProduct:
                 {
                     "name": "ExactTargetExportStatus",
                     "value": random.randrange(1,5)
-                },
-                {
-                    "name": "ExportedToTibco",
-                    "value": random.randrange(1,5)
-                },
-                {
-                    "name": "OMS",
-                    "value": random.randrange(1,5)
-                },
-                {
-                    "name": "agreeForSubscription",
-                    "value": True
-                },
-                {
-                    "name": "aromaStatus",
-                    "value": "CREATED"
-                },
-                {
-                    "name": "billingAddressSanity",
-                    "value": True
-                },
-                {
-                    "name": "brand",
-                    "value": "adidas"
-                },
-                {
-                    "name": "carrierStatus",
-                    "value": "READY_FOR_EPORT"
-                },
-                {
-                    "name": "checkoutId",
-                    "value": fake.bothify(text = "????????????????????????????????????", letters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890')
-                },
-                {
-                    "name": "city",
-                    "value": fake.city()
-                },
-                {
-                    "name": "consentVersion",
-                    "value": fake.bothify(text = "????????????", letters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890')
-                },
-                {
-                    "name": "customerEUCI",
-                    "value": fake.bothify(text = "????????????", letters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890')
-                },
-                {
-                    "name": "customerEncryptedEmail",
-                    "value": fake.bothify(text = "????????????????????", letters = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890')
-                },
-                {
-                    "name": "customerIP",
-                    "value": fake.ipv4()
-                },
-                {
-                    "name": "customerOrderHistoryStatus",
-                    "value": random.randrange(1,5)
-                },
-                {
-                    "name": "dataMartExportStatus",
-                    "value": random.randrange(1,5)
-                },
-                {
-                    "name": "emailConfirmationSent",
-                    "value": False
-                },
-                {
-                    "name": "isCCOrder",
-                    "value": False
-                },
-                {
-                    "name": "ivsReservationIDs",
-                    "value": "[]"
-                },
-                {
-                    "name": "orderSource",
-                    "value": "glass"
-                },
-                {
-                    "name": "orderTrackData",
-                    "value": fake.bothify(text = "????????????????????????????????????????????????????????????????", letters = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890')
-                },
-                {
-                    "name": "paymentMethodName",
-                    "value": fake.credit_card_provider()
-                },
-                {
-                    "name": "shippingAddressSanity",
-                    "value": True
-                },
-                {
-                    "name": "shippingAddressValidated",
-                    "value": True
-                },
-                {
-                    "name": "shippingAddressValidation",
-                    "value": fake.bothify(text = "????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????", letters = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890')
-                },
-                {
-                    "name": "shippingMethod",
-                    "value": "Standard-FED-Unregistered"
-                },
-                {
-                    "name": "siteId",
-                    "value": "adidas_US"
-                },
-                {
-                    "name": "siteId",
-                    "value": "adidas_US"
-                },
-                {
-                    "name": "taxCacheKey",
-                    "value": fake.bothify(text = "????????????????????", letters = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890')
-                },
-                {
-                    "name": "taxCalculationMissing",
-                    "value": False
                 },
                 {
                     "name": "userAgent",
@@ -570,32 +372,6 @@ class MetricsLocust(User):
             # Log all application exceptions (and audits) to the same cluster
             audit = client.mlocust.audit
 
-            # Extra work setting up the db collection and indexes
-            """
-            Define the collection and its indexes
-            """
-            # prepare a codec for decimal values
-            decimal_codec = DecimalCodec()
-            type_registry = TypeRegistry([decimal_codec])
-            codec_options = CodecOptions(type_registry=type_registry)
-
-            # create the collection if not exists
-            if vars[2] not in db.list_collection_names():
-                coll = db.create_collection(
-                    vars[2], codec_options=codec_options)
-
-                # create the required indexes
-                indexes = [
-                    pymongo.IndexModel([('orderNumber', pymongo.ASCENDING)], name="oNumber"), 
-                    pymongo.IndexModel([('customer.customerEmail', pymongo.ASCENDING)], name="cEmail"), 
-                    pymongo.IndexModel([('customer.customerPhone', pymongo.ASCENDING)], name="cPhone"), 
-                    pymongo.IndexModel([('orderStatus', pymongo.ASCENDING)], name="oStatus")]
-                coll.create_indexes(indexes)
-
-            else:
-                coll = db.get_collection(
-                    vars[2], codec_options=codec_options)
-
     ################################################################
     # Example helper function that is not a Locust task.
     # All Locust tasks require the @task annotation
@@ -638,7 +414,7 @@ class MetricsLocust(User):
         global coll, audit
 
         try:
-            coll.insert_many([generator.generate() for _ in range(batch_size)], ordered=False)
+            coll.insert_many([generator.create_product() for _ in range(batch_size)], ordered=False)
 
             events.request_success.fire(request_type="pymongo", name=name, response_time=(time.time()-tic)*1000, response_length=0)
         except Exception as e:
