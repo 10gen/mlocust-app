@@ -98,6 +98,7 @@ class MetricsLocust(User):
     # extra work that needs to be performed on your cluster
     ################################################################
     def audit(self, type, msg):
+        global audit
         print("Audit: ", msg)
         audit.insert_one({"type":type, "ts":self.get_time(), "msg":str(msg)})
 
