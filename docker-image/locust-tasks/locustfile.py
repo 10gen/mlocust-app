@@ -79,7 +79,7 @@ class MetricsLocust(User):
         print("Batch size from Host:",batch_size)
 
         # Singleton
-        if (client is None):
+        if (audit is None):
             # Log all application exceptions (and audits) to the same cluster
             audit = client.mlocust.audit
 
