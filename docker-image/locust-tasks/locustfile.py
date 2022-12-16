@@ -32,56 +32,46 @@ from bson import ObjectId
 from locust import User, events, task, constant, tag, between
 import time
 
-########################################################################
-# Global Static Variables that can be accessed without referencing self
-# The values are initialized with None till they get set from the
-# actual locust exeuction when the host param is passed in.
-########################################################################
-# DO NOT MODIFY! PASS IN VIA HOST PARAM.
-client = None
-coll = None
-audit = None
-
 class MetricsLocust(User):
+
+    ########################################################################
+    # Class variables. The values are initialized with None
+    # till they get set from the actual locust exeuction 
+    # when the host param is passed in.
+    # DO NOT MODIFY! PASS IN VIA HOST PARAM.
+    ########################################################################
+    client, coll, audit = None, None, None
+
     ####################################################################
-    # All performance POVs measure based on requests/sec (RPS).
-    # Throttle all tasks per user to run every second.
-    # Do not touch this parameter.
-    # If we don't throttle, then each user will run as fast as possible,
-    # and will kill the CPU of the machine.
-    # We can increase throughput by running more concurrent users.
+    # You can throttle tasks being executed by each simulated user
+    # Only do this if the client really wants to simulate n-number
+    # of users. Otherwise, if you leave this commented out,
+    # the performance will increase by 400%
     ####################################################################
-    wait_time = between(1, 1)
+    # wait_time = between(1, 1)
 
     ####################################################################
     # Initialize any env vars from the host parameter
-    # Make sure it's a singleton so we only set conn pool once
     # Set the target collections and such here
     ####################################################################
     def __init__(self, parent):
         super().__init__(parent)
 
-        # specify that the following vars are global vars
-        global client, coll, audit
-
-        # We can't put this in the singleton because we can't modify the params after it's been run once
+        # We can't put this in the singleton because we can't modify the params after it's been run once, 
+        # e.g. run new test with a different host param
         # Parse out env variables from the host
         vars = self.host.split("|")
         srv = vars[0]
         print("SRV:",srv)
-        client = pymongo.MongoClient(srv)
+        self.client = pymongo.MongoClient(srv)
 
-        db = client[vars[1]]
-        coll = db[vars[2]]
-
-        # docs to insert per batch insert
-        batch_size = int(vars[3])
-        print("Batch size from Host:",batch_size)
+        db = self.client[vars[1]]
+        self.coll = db[vars[2]]
 
         # Singleton
-        if (audit is None):
+        if (self.audit is None):
             # Log all application exceptions (and audits) to the same cluster
-            audit = client.mlocust.audit
+            self.audit = self.client.mlocust.audit
 
     ################################################################
     # Example helper function that is not a Locust task.
@@ -97,10 +87,9 @@ class MetricsLocust(User):
     # Otherwise, it impacts the load on your cluster since it's
     # extra work that needs to be performed on your cluster
     ################################################################
-    def audit(self, type, msg):
-        global audit
+    def audit_err(self, type, msg):
         print("Audit: ", msg)
-        audit.insert_one({"type":type, "ts":self.get_time(), "msg":str(msg)})
+        self.audit.insert_one({"type":type, "ts":self.get_time(), "msg":str(msg)})
 
     ################################################################
     # Start defining tasks and assign a weight to it.
@@ -116,8 +105,8 @@ class MetricsLocust(User):
 
         try:
             # Get the record from the target collection now
-            coll.find_one({}, {"_id":1})
-            events.request_success.fire(request_type="pymongo", name=name, response_time=(time.time()-tic)*1000, response_length=0)
+            self.coll.find_one({}, {"_id":1})
+            events.request_success.fire(request_type="pymongo", name=name, response_time=(self.get_time()-tic)*1000, response_length=0)
         except Exception as e:
-            events.request_failure.fire(request_type="pymongo", name=name, response_time=(time.time()-tic)*1000, response_length=0, exception=e)
-            self.audit("exception", e)
+            events.request_failure.fire(request_type="pymongo", name=name, response_time=(self.get_time()-tic)*1000, response_length=0, exception=e)
+            self.audit_err("exception", e)

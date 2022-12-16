@@ -36,19 +36,6 @@ import time
 import fakerutil
 
 ########################################################################
-# Global Static Variables that can be accessed without referencing self
-# The values are initialized with None till they get set from the
-# actual locust exeuction when the host param is passed in.
-########################################################################
-# DO NOT MODIFY! PASS IN VIA HOST PARAM.
-client = None
-coll = None
-audit = None
-# TODO If you are using a custom model, make sure it gets checked in
-model = None 
-bulk_size = None
-
-########################################################################
 # Even though locust is designed for concurrency of simulated users,
 # given how resource intensive fakers/bulk inserts are,
 # you should only run 1 simulated user / worker else you'll kill the 
@@ -56,6 +43,16 @@ bulk_size = None
 # TODO In the locust UI, specify 1 user per worker
 ########################################################################
 class MetricsLocust(User):
+    ########################################################################
+    # Class variables. The values are initialized with None
+    # till they get set from the actual locust exeuction 
+    # when the host param is passed in.
+    # DO NOT MODIFY! PASS IN VIA HOST PARAM.
+    ########################################################################
+    # DO NOT MODIFY! PASS IN VIA HOST PARAM.
+    # TODO If you are using a custom model, make sure it gets checked in
+    client, coll, audit, model, bulk_size = None, None, None, None, None
+
     ####################################################################
     # Unlike a standard locust file where we throttle requests on a per
     # second basis, since we are trying to load data asap, there will 
@@ -64,37 +61,34 @@ class MetricsLocust(User):
 
     ####################################################################
     # Initialize any env vars from the host parameter
-    # Make sure it's a singleton so we only set conn pool once
     # Set the target collections and such here
     ####################################################################
     def __init__(self, parent):
         super().__init__(parent)
 
-        # specify that the following vars are global vars
-        global client, coll, audit, model, bulk_size
-
-        # We can't put this in the singleton because we can't modify the params after it's been run once
+        # We can't put this in the singleton because we can't modify the params after it's been run once, 
+        # e.g. run new test with a different host param
         # Parse out env variables from the host
         vars = self.host.split("|")
         srv = vars[0]
         print("SRV:",srv)
-        client = pymongo.MongoClient(srv)
+        self.client = pymongo.MongoClient(srv)
 
-        db = client[vars[1]]
-        coll = db[vars[2]]
+        db = self.client[vars[1]]
+        self.coll = db[vars[2]]
 
         # Specify the model, without the model directory name.
         # The model must be checked into git else it wont' work in prod
-        model = vars[3]
+        self.model = vars[3]
         
         # docs to insert per batch insert
-        bulk_size = int(vars[4])
-        print("Batch size from Host:",bulk_size)
+        self.bulk_size = int(vars[4])
+        print("Batch size from Host:",self.bulk_size)
 
         # Singleton
-        if (audit is None):
+        if (self.audit is None):
             # Log all application exceptions (and audits) to the same cluster
-            audit = client.mlocust.audit
+            self.audit = self.client.mlocust.audit
 
     ################################################################
     # Example helper function that is not a Locust task.
@@ -110,10 +104,9 @@ class MetricsLocust(User):
     # Otherwise, it impacts the load on your cluster since it's
     # extra work that needs to be performed on your cluster 
     ################################################################
-    def audit(self, type, msg):
-        global audit
+    def audit_err(self, type, msg):
         print("Audit: ", msg)
-        audit.insert_one({"type":type, "ts":self.get_time(), "msg":str(msg)})
+        self.audit.insert_one({"type":type, "ts":self.get_time(), "msg":str(msg)})
 
     ################################################################
     # Since the loader is designed for 1 user
@@ -135,12 +128,12 @@ class MetricsLocust(User):
 
         try:
             # Logic for bulk insert goes here using the pyfaker util
-            l = fakerutil.bulkFetch(model, bulk_size)
-            coll.insert_many(l)
+            l = fakerutil.bulkFetch(self.model, self.bulk_size)
+            self.coll.insert_many(l)
 
-            events.request_success.fire(request_type="pymongo", name=name, response_time=(time.time()-tic)*1000, response_length=0)
+            events.request_success.fire(request_type="pymongo", name=name, response_time=(self.get_time()-tic)*1000, response_length=0)
         except Exception as e:
-            events.request_failure.fire(request_type="pymongo", name=name, response_time=(time.time()-tic)*1000, response_length=0, exception=e)
-            self.audit("exception", e)
+            events.request_failure.fire(request_type="pymongo", name=name, response_time=(self.get_time()-tic)*1000, response_length=0, exception=e)
+            self.audit_err("exception", e)
             # Add a sleep for just faker gen so we don't hammer the system with file not found ex
             time.sleep(5)
