@@ -34,4 +34,4 @@ spec:
             - name: TARGET_HOST
               value: [TARGET_HOST]
             - name: LOCUST_FILE_PATH
-              value: https://stitch-statichosting-prod.s3.amazonaws.com/61a645aaa483c35ff9955c28/locustfile.py?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAZ5A3K6VY7LDWGOX4%2F20221222%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20221222T211544Z&X-Amz-Expires=60&X-Amz-SignedHeaders=host&X-Amz-Signature=29b524ffce4876b16a8065fdcd201d0c4ddb09536a37f6412f35a3a66886e393
+              value: https://common.mside.app/locustfile.py
