@@ -19,9 +19,10 @@ LOCUS_OPTS="-f /locust-tasks/locustfile.py --host=$LOCUST_HOST"
 LOCUST_MODE=${LOCUST_MODE:-standalone}
 
 # Extra logic to grab an external locust file
-if [[ ! -z $LOCUST_FILE_PATH ]]; then
-    wget $LOCUST_FILE_PATH -O /locust-tasks/locustfile.py 
-fi
+# This will go into mLocust 2.0 when we have a base img and just dynamically fetch a new locust file.
+#if [[ ! -z $LOCUST_FILE_PATH ]]; then
+#    wget $LOCUST_FILE_PATH -O /locust-tasks/locustfile.py 
+#fi
 
 if [[ "$LOCUST_MODE" = "master" ]]; then
     LOCUS_OPTS="$LOCUS_OPTS --master"
