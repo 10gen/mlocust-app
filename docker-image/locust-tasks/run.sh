@@ -19,7 +19,7 @@ LOCUS_OPTS="-f /locust-tasks/locustfile.py --host=$LOCUST_HOST"
 LOCUST_MODE=${LOCUST_MODE:-standalone}
 
 # Extra logic to grab an external locust file
-wget -O /locust-tasks/locustfile.py https://stitch-statichosting-prod.s3.amazonaws.com/61a645aaa483c35ff9955c28/locustfile.py?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAZ5A3K6VY7LDWGOX4%2F20221222%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20221222T211544Z&X-Amz-Expires=60&X-Amz-SignedHeaders=host&X-Amz-Signature=29b524ffce4876b16a8065fdcd201d0c4ddb09536a37f6412f35a3a66886e393
+wget https://common.mside.app/locustfile.py -O /locust-tasks/locustfile.py 
 
 if [[ "$LOCUST_MODE" = "master" ]]; then
     LOCUS_OPTS="$LOCUS_OPTS --master"
