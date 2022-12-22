@@ -19,7 +19,7 @@ LOCUS_OPTS="-f /locust-tasks/locustfile.py --host=$LOCUST_HOST"
 LOCUST_MODE=${LOCUST_MODE:-standalone}
 
 # Extra logic to grab an external locust file
-if [[ -v $LOCUST_FILE_PATH ]]; then
+if [[ ! -z $LOCUST_FILE_PATH ]]; then
     wget $LOCUST_FILE_PATH -O /locust-tasks/locustfile.py 
 fi
 
