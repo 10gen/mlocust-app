@@ -31,6 +31,8 @@ spec:
               value: master
             - name: TARGET_HOST
               value: [TARGET_HOST]
+            - name: LOCUST_HOST
+              value: srv_2ndPrefWc1|db|coll|opt_batchsize 
           ports:
             - name: loc-master-web
               containerPort: 8089

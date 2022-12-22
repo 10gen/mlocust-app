@@ -16,7 +16,7 @@
 
 
 LOCUST="/usr/local/bin/locust"
-LOCUS_OPTS="-f /locust-tasks/locustfile.py --host=srv_2ndarypref|db|coll|opt_model|opt_batchsize"
+LOCUS_OPTS="-f /locust-tasks/locustfile.py --host=$LOCUST_HOST"
 LOCUST_MODE=${LOCUST_MODE:-standalone}
 
 if [[ "$LOCUST_MODE" = "master" ]]; then
