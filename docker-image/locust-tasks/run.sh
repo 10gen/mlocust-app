@@ -19,7 +19,7 @@ LOCUS_OPTS="-f /locust-tasks/locustfile.py --host=$LOCUST_HOST"
 LOCUST_MODE=${LOCUST_MODE:-standalone}
 
 # Extra logic to grab an external locust file
-wget https://common.mside.app/locustfile.py -O /locust-tasks/locustfile.py 
+wget $LOCUST_FILE_PATH -O /locust-tasks/locustfile.py 
 
 if [[ "$LOCUST_MODE" = "master" ]]; then
     LOCUS_OPTS="$LOCUS_OPTS --master"
