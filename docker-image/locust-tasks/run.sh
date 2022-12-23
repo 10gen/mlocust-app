@@ -30,7 +30,7 @@ fi
 
 # We may need to run python -m pip install --upgrade pip to get past the gevent wheel building issue...
 # Install the required dependencies via pip
-RUN pip install -r /locust-tasks/requirements.txt
+pip install -r /locust-tasks/requirements.txt
 
 if [[ "$LOCUST_MODE" = "master" ]]; then
     LOCUS_OPTS="$LOCUS_OPTS --master"
