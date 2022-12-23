@@ -24,6 +24,14 @@ LOCUST_MODE=${LOCUST_MODE:-standalone}
 #    wget $LOCUST_FILE_PATH -O /locust-tasks/locustfile.py 
 #fi
 
+if [[ ! -z $LOCUST_REQTS_PATH ]]; then
+    wget $LOCUST_REQTS_PATH -O /locust-tasks/requirements.txt
+fi
+
+# We may need to run python -m pip install --upgrade pip to get past the gevent wheel building issue...
+# Install the required dependencies via pip
+RUN pip install -r /locust-tasks/requirements.txt
+
 if [[ "$LOCUST_MODE" = "master" ]]; then
     LOCUS_OPTS="$LOCUS_OPTS --master"
 elif [[ "$LOCUST_MODE" = "worker" ]]; then

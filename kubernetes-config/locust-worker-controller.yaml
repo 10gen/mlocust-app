@@ -33,3 +33,5 @@ spec:
               value: locust-master
             - name: LOCUST_FILE_PATH
               value: https://common.mside.app/locustfile.py
+            - name: LOCUST_REQTS_PATH
+              value: https://common.mside.app/requirements.txt

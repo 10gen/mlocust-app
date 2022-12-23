@@ -22,11 +22,6 @@ ADD licenses /licenses
 # Add the external tasks directory into /tasks
 ADD locust-tasks /locust-tasks
 
-# We may need to run python -m pip install --upgrade pip to get past the gevent wheel building issue...
-
-# Install the required dependencies via pip
-RUN pip install -r /locust-tasks/requirements.txt
-
 # Expose the required Locust ports
 EXPOSE 5557 5558 8089
 
