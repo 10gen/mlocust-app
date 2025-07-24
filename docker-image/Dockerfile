@@ -14,7 +14,7 @@
 
 
 # Start with a base Python 3.9.12 image
-FROM python:3.9.12
+FROM python:3.14.0rc1
 
 # Add the licenses for third party software and libraries
 ADD licenses /licenses
